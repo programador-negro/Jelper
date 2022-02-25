@@ -1,10 +1,12 @@
+import os
 import pandas as pd # para lectura de la informacion de Excel
 from copy import deepcopy
 from datetime import datetime
-from colorama import init, Fore, Back 
-import os
+from colorama import init, Fore, Back
 
-def excelUpdate():
+def excelUpdate(num_str, pred, addend_arch):
+    numeros_string = num_str
+    predeterminados = pred
     try:
         dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
         hoja = input("Nombre de hoja: ")
@@ -55,7 +57,58 @@ def excelUpdate():
 
     except Exception as ex:
 
-        print(f" \U0000274C {red}ERROR:{freset} " + str(ex))
+        print(f" \U0000274C ERROR: " + str(ex))
+        # exc_type, exc_obj, exc_tb = sys.exc_info()
+        # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        # print(exc_type, fname, exc_tb.tb_lineno)
+
+# transformar datos de Excel a comandos INSERT SQL
+def excelXML():
+
+    try:
+        dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
+        hoja = "Hoja1"
+
+        dataFrame = pd.read_excel(dirFile, sheet_name=hoja)
+        columnas = list(dataFrame.columns.values)
+        query = f""
+        comando = deepcopy(query)
+        tiempo_inicio = datetime.now()
+
+        contenido = str()
+        for index in range(len(dataFrame)):
+            values = list(dataFrame.loc[index])
+
+            for key, value in zip(columnas, values):
+                if values.index(value) == 0:
+                    comando += f'<registro {key}="{value}" '
+                else:
+                    comando += f'{key}="{value}" '
+            comando += "/>\n"  # salto de linea
+            contenido += comando
+            comando = query
+        print("-<transaccion_siebel> " + \
+        "-<TT> " + \
+        "-<SiebelMessage> " + \
+        "-<psRegistro>" + \
+                contenido + \
+                "</psRegistro>"
+                "</SiebelMessage>" + \
+                "</TT>" + \
+                "</transaccion_siebel>"
+        )
+        # addend_arch(contenido)
+        tiempo_final = datetime.now()
+
+        print(Fore.GREEN+"\tTIEMPO DE EJECUCION")
+        print("\tInicio: ", tiempo_inicio)
+        print("\tFin: ", tiempo_final)
+        print("\t - - - - - - -")
+        print("\t", tiempo_final-tiempo_inicio, Fore.RESET)
+
+    except Exception as ex:
+
+        print(f" \U0000274C ERROR: " + str(ex))
         # exc_type, exc_obj, exc_tb = sys.exc_info()
         # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         # print(exc_type, fname, exc_tb.tb_lineno)
@@ -63,7 +116,9 @@ def excelUpdate():
 # transformar datos de Excel a comandos INSERT SQL
 
 
-def excelInsert():
+def excelInsert(num_str, pred, addend_arch):
+    numeros_string = num_str
+    predeterminados = pred
     dirFile = input('ingrese la ruta del archivo: ')
     hoja = input("Nombre de hoja: ")
     tabla = input("Nombre de tabla: ")
@@ -80,7 +135,7 @@ def excelInsert():
     query = f"INSERT INTO {tabla}("
     for colum in columnas:
         query += f"`{colum}`,"
-        
+
     query = query[:-1]
     query += ") VALUES("
 

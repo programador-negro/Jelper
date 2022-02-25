@@ -3,8 +3,8 @@ import os  # para borrar la inforamcion impresa en la terminal o consola
 import sys
 from copy import deepcopy  # para copiar las variables de algunas funciones
 from datetime import datetime
-from jarvisExcel import excelInsert, excelUpdate
 from colorama import Back, Fore, init
+from jarvisExcel import excelInsert, excelUpdate, excelXML
 
 
 ''' Pendientes para desarrollar:
@@ -325,6 +325,7 @@ def inicio():
         [1] - INSERT\t\t[4] - transportar a JSON2 red Amor
         [2] - UPDATE\t\t[5] - Excel a Insert
         [3] - DELETE\t\t[6] -  Excel to Update
+                    \t\t[7] -  Excel to XML
         
         [{red}*{freset}] - SALIR 
         ''')
@@ -341,6 +342,8 @@ def inicio():
             excelInsert()
         elif opt == '6':
             excelUpdate()
+        elif opt == '7':
+            excelXML()
         elif opt == '*':
             print(Fore.BLUE+"¡ADIOS!"+Fore.RESET)
             suitch = False
