@@ -13,10 +13,10 @@ from utilities import save_file as guardarEnArchivo
 ''' Pendientes para desarrollar:
 
 - crear formato para carga masiva de excel en red amor empresarial.
-- desarrollar la seleccion automatica de hojas del archivo.
-- desarrollar opcion para abrir interfaz grafica del programa, por medio de un comnando.
+- desarrollar la selección automática de hojas del archivo.
+- desarrollar opción para abrir interfaz gráfica del programa, por medio de un commando.
 
-- desarrollar una interfaz grafica en c# para la lectura de archivos
+- desarrollar una interfaz gráfica en c# para la lectura de archivos
 
 '''
 init()  # inicializador de colores de terminal
@@ -51,8 +51,6 @@ def transportarInsert():  # transforma los datos a comandos INSERT para luego se
 
         for item in lineaSeparada:
             elem_sep = item.split(',')
-            # os.system("cls") # borra informacion de la consola o terminal
-            # print(Fore.YELLOW,n,Fore.GREEN,elem_sep[0],Fore.RESET) #imprimir informacion en pantalla retrasa el proceso de transferencia de datos
             for one_item in elem_sep:
                 # valida si alguno de los campos son de tipo numero para colocarlos sin comillas
                 if one_item in numerosStr or one_item in predeterminados:
@@ -176,58 +174,56 @@ def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para
         "#_documento_del_trabajador":1036398321,
         "tipo_documento_del_trabajador":"cc"}' );
     '''
+    try:
+        diccionario = {
+            "Documento": "",
+            "Estado": "",
+            "Fecha": "",
+            "CreadoPor": "",
+            "TipoMensaje": "",
+            "Cis": "",
+            "Nombre": "",
+            "Telefono": "",
+            "Correo": "",
+            "Mensaje": ""}
 
-    diccionario = {
-        "Documento": "",
-        "Estado": "",
-        "Fecha": "",
-        "CreadoPor": "",
-        "TipoMensaje": "",
-        "Cis": "",
-        "Nombre": "",
-        "Telefono": "",
-        "Correo": "",
-        "Mensaje": ""}
+        ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
+        lineaSeparada = leerArchivoBase(ruta_archivo)
+        for item in lineaSeparada:
+            elem_sep = item.split(',')
 
-    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
-    lineaSeparada = leerArchivoBase(ruta_archivo)
-    # print(lineaSeparada)
-    for item in lineaSeparada:
-        elem_sep = item.split(',')
-        # os.system("cls") # borra informacion mostrada en la consola o terminal
-        # print(Fore.YELLOW,n,Fore.GREEN,elem_sep[6],Fore.RESET)
+            diccionario["nit_empresa"] = elem_sep[0].strip()
+            diccionario["nombre_de_la_empresa"] = elem_sep[1].strip()
+            diccionario["#_documento_del_trabajador"] = elem_sep[2].strip()
+            diccionario["tipo_documento_del_trabajador"] = elem_sep[3].strip()
+            diccionario["nombre_del_trabajador"] = elem_sep[4].strip()
+            diccionario["telefono_trabajador"] = elem_sep[5].strip()
+            diccionario["tarifa"] = elem_sep[6].strip()
+            diccionario["negocio"] = elem_sep[7].strip()
+            diccionario["tipo_de_persona"] = elem_sep[8].strip()
 
-        diccionario["nit_empresa"] = elem_sep[0].strip()
-        diccionario["nombre_de_la_empresa"] = elem_sep[1].strip()
-        diccionario["#_documento_del_trabajador"] = elem_sep[2].strip()
-        diccionario["tipo_documento_del_trabajador"] = elem_sep[3].strip()
-        diccionario["nombre_del_trabajador"] = elem_sep[4].strip()
-        diccionario["telefono_trabajador"] = elem_sep[5].strip()
-        diccionario["tarifa"] = elem_sep[6].strip()
-        diccionario["negocio"] = elem_sep[7].strip()
-        diccionario["tipo_de_persona"] = elem_sep[8].strip()
+            queryX = 'INSERT INTO db_consulta_red_de_amor_empresarial("created_at", "created_by_id", "updated_at", "updated_by_id", "deleted", "form_id", "managementTime", "status", "currentLevel", "valuesJSON") VALUES('
+            queryX += "'2020-11-10 07:30:59.394432-05'"
+            queryX += ',187,'
+            queryX += "'2020-11-10 07:30:59.394432-05'"
+            queryX += ',187,false,3,0,'
+            queryX += "'joined','gestion',"
 
-        queryX = 'INSERT INTO db_consulta_red_de_amor_empresarial("created_at", "created_by_id", "updated_at", "updated_by_id", "deleted", "form_id", "managementTime", "status", "currentLevel", "valuesJSON") VALUES('
-        queryX += "'2020-11-10 07:30:59.394432-05'"
-        queryX += ',187,'
-        queryX += "'2020-11-10 07:30:59.394432-05'"
-        queryX += ',187,false,3,0,'
-        queryX += "'joined','gestion',"
-
-        string = " '{"
-        string += f'"tarifa":"{diccionario["tarifa"] }",'
-        string += f'"negocio":"{diccionario["negocio"]}",'
-        string += f'"nit_empresa":{diccionario["nit_empresa"]},'
-        string += f'"tipo_de_persona":"{diccionario["tipo_de_persona"]}",'
-        string += f'"telefono_trabajador":{diccionario["telefono_trabajador"]},'
-        string += f'"nombre_de_la_empresa":"{diccionario["nombre_de_la_empresa"]}",'
-        string += f'"nombre_del_trabajador":"{diccionario["nombre_del_trabajador"]}",'
-        string += f'"#_documento_del_trabajador":{diccionario["#_documento_del_trabajador"] },'
-        string += f'"tipo_documento_del_trabajador":"{diccionario["tipo_documento_del_trabajador"]}"'
-        string += "}' "
-        queryX += string + ');\n'
-        guardarEnArchivo(queryX)
-
+            string = " '{"
+            string += f'"tarifa":"{diccionario["tarifa"] }",'
+            string += f'"negocio":"{diccionario["negocio"]}",'
+            string += f'"nit_empresa":{diccionario["nit_empresa"]},'
+            string += f'"tipo_de_persona":"{diccionario["tipo_de_persona"]}",'
+            string += f'"telefono_trabajador":{diccionario["telefono_trabajador"]},'
+            string += f'"nombre_de_la_empresa":"{diccionario["nombre_de_la_empresa"]}",'
+            string += f'"nombre_del_trabajador":"{diccionario["nombre_del_trabajador"]}",'
+            string += f'"#_documento_del_trabajador":{diccionario["#_documento_del_trabajador"] },'
+            string += f'"tipo_documento_del_trabajador":"{diccionario["tipo_documento_del_trabajador"]}"'
+            string += "}' "
+            queryX += string + ');\n'
+            guardarEnArchivo(queryX)
+    except Exception as ex:
+        print(ex)
 # - - - - Inicio de la ejecucion del programa - - - -
 
 
@@ -237,10 +233,14 @@ def inicio():
         print(f'''
         {Fore.BLACK+Back.WHITE}\U0001F41E YO TE AYUDO \U0001F41E {Back.RESET+Fore.RESET}
         [ Seleccionar una opcion ]
-        [1] - INSERT\t\t[4] - transportar a JSON2 red Amor
-        [2] - UPDATE\t\t[5] - Excel a Insert
-        [3] - DELETE\t\t[6] -  Excel to Update
-                    \t\t[7] -  Excel to XML
+        
+        1️⃣ - INSERT
+        2️⃣ - UPDATE
+        3️⃣ - DELETE
+        4️⃣ - transportar a JSON2 red Amor
+        5️⃣ - Excel a Insert
+        6️⃣ - Excel to Update
+        7️⃣ - Excel to XML
         
         [{red}*{freset}] - SALIR 
         ''')
@@ -265,7 +265,7 @@ def inicio():
             quit()
         else:
             os.system("cls")  # borra informacion de la consola o terminal
-            print(Fore.RED, '\U0001F621 ¡OPCION INCORRECTA!', Fore.RESET)
+            print(Fore.RED, '💢 ¡OPCION INCORRECTA!', Fore.RESET)
 
 
 # ----------- ejecucion ------------

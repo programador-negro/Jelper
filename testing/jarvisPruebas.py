@@ -44,12 +44,10 @@ def igualador(columnas1, lista2):
         n = len1-len2
         for indice in range(n):
             del columnas1[indice]
-            #print(green,"igualadas",freset) 
     elif len1<len2:
         n = len2-len1
         for indice in range(n):
             columnas1.append('columnaX'+str(indice))
-            #print(green,"igualadas",freset)
     elif len1==len2:
         print(green,"Listas de igual dimension",freset)
     else:
@@ -295,8 +293,6 @@ def transportar_aSelect(): # transforma los datos a comandos SELECT para luego s
 def transportar_test():
     #for item in items_sep:
     #    elem_sep = item.split(',')
-    #    print(elem_sep)
-    #print("COMPLETADO")
     pass
 
 def inicio():
@@ -329,5 +325,6 @@ def inicio():
         else:
             os.system("cls")
             print(Fore.RED,'¡OPCION INCORRECTA!',Fore.RESET)
+
 #----------- ejecucion ------------
 inicio()

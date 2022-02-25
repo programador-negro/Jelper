@@ -36,12 +36,10 @@ def equalizer(columnas1, lista2):
         n = len1-len2
         for indice in range(n):
             del columnas1[indice]
-            # print(green,"igualadas",freset)
     elif len1 < len2:
         n = len2-len1
         for indice in range(n):
             columnas1.append('columnaX'+str(indice))
-            # print(green,"igualadas",freset)
     elif len1 == len2:
         print(green, "Listas de igual dimension", freset)
     else:
