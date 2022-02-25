@@ -3,7 +3,9 @@ import pandas as pd # para lectura de la informacion de Excel
 from copy import deepcopy
 from datetime import datetime
 from colorama import init, Fore, Back
+from decorators import total_time_execution
 
+@total_time_execution
 def excelUpdate(num_str, pred, addend_arch):
     numeros_string = num_str
     predeterminados = pred
@@ -21,8 +23,6 @@ def excelUpdate(num_str, pred, addend_arch):
         columnas = list(dataFrame.columns.values)
         query = f"UPDATE {tabla} SET "
         comando = deepcopy(query)
-        tiempo_inicio = datetime.now()
-
         whereConditions = list()
         contenido = str()
         for index in range(len(dataFrame)):
@@ -47,13 +47,6 @@ def excelUpdate(num_str, pred, addend_arch):
 
             comando = query
         addend_arch(contenido)
-        tiempo_final = datetime.now()
-
-        print(Fore.GREEN+"\tTIEMPO DE EJECUCION")
-        print("\tInicio: ", tiempo_inicio)
-        print("\tFin: ", tiempo_final)
-        print("\t - - - - - - -")
-        print("\t", tiempo_final-tiempo_inicio, Fore.RESET)
 
     except Exception as ex:
 
@@ -62,7 +55,8 @@ def excelUpdate(num_str, pred, addend_arch):
         # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         # print(exc_type, fname, exc_tb.tb_lineno)
 
-# transformar datos de Excel a comandos INSERT SQL
+# transformar datos de Excel a XML
+@total_time_execution
 def excelXML():
 
     try:
@@ -73,7 +67,6 @@ def excelXML():
         columnas = list(dataFrame.columns.values)
         query = f""
         comando = deepcopy(query)
-        tiempo_inicio = datetime.now()
 
         contenido = str()
         for index in range(len(dataFrame)):
@@ -97,25 +90,13 @@ def excelXML():
                 "</TT>" + \
                 "</transaccion_siebel>"
         )
-        # addend_arch(contenido)
-        tiempo_final = datetime.now()
-
-        print(Fore.GREEN+"\tTIEMPO DE EJECUCION")
-        print("\tInicio: ", tiempo_inicio)
-        print("\tFin: ", tiempo_final)
-        print("\t - - - - - - -")
-        print("\t", tiempo_final-tiempo_inicio, Fore.RESET)
 
     except Exception as ex:
-
-        print(f" \U0000274C ERROR: " + str(ex))
-        # exc_type, exc_obj, exc_tb = sys.exc_info()
-        # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        # print(exc_type, fname, exc_tb.tb_lineno)
+        print(f" 🚨 ERROR: " + ex)
 
 # transformar datos de Excel a comandos INSERT SQL
 
-
+@total_time_execution
 def excelInsert(num_str, pred, addend_arch):
     numeros_string = num_str
     predeterminados = pred
@@ -141,9 +122,6 @@ def excelInsert(num_str, pred, addend_arch):
 
     comando = deepcopy(query)
 
-    tiempo_inicio = datetime.now()
-    print("\t", tiempo_inicio)
-
     for index in range(len(dataFrame)):
         # Obtiene los valores de una fila los combierte en una lista para luego ser recorrido
         values = list(dataFrame.loc[index])
@@ -157,8 +135,7 @@ def excelInsert(num_str, pred, addend_arch):
         comando += ");\n"  # salto de linea
         addend_arch(comando)
         print(comando)
-        # addend_arch(comando)
+        addend_arch(comando)
         comando = query
 
-    tiempo_final = datetime.now()
-    print("\t", tiempo_final)
+  

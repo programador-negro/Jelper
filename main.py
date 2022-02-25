@@ -4,8 +4,11 @@ import sys
 from copy import deepcopy  # para copiar las variables de algunas funciones
 from datetime import datetime
 from colorama import Back, Fore, init
-from jarvisExcel import excelInsert, excelUpdate, excelXML
-
+from decorators import total_time_execution
+from excel import excelInsert, excelUpdate, excelXML
+from utilities import leer_archivo_base as leerArchivoBase
+from utilities import equalizer as igualador
+from utilities import save_file as guardarEnArchivo
 
 ''' Pendientes para desarrollar:
 
@@ -22,75 +25,7 @@ red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW,
 numerosStr : list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\t1\t', '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t']
 predeterminados : list = ['null', 'NULL', 'Null', 'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP']
 
-
-# - - - - -  leer archivo por la ruta o el Path - - - - - -
-def leerArchivoBase(ruta_archivo):
-    ''' Documentacion:
-    - se le pasa como parametro la ruta del archivo del cual se desea leer la informacion.
-    - se valida si el archivo existe en la ruta indicada
-    '''
-    try:
-        if os.path.isfile(ruta_archivo):  # valida si el archivo existe
-            file = open(ruta_archivo, 'r', encoding="utf-8")
-            lectura = file.read()
-            file.close()
-            # separa por linea cada comando SQL 21395617-18
-            lista = lectura.split('\n')
-            return lista
-        else:
-            os.system("cls")
-
-            print(red, 'La ruta no pertenece a un archivo', freset)
-            raise ValueError('La ruta no pertenece a un archivo')
-            return False
-    except Exception as err:
-        return err
-
-# - - - - - igualar columnas al momento de crear los query string - - - - - - -
-
-
-def igualador(columnas1, lista2):
-    ''' Documentacion:
-    - column1, contiene las columnas insertadas por el usuario
-    - column2, contine las columnas definidas en el archivo de texto
-    - el objetivo final de esta funcion es tener el mismo numero de columnas insertadas por el usuario y en el archivo
-    '''
-    len1, len2 = len(columnas1), len(lista2)
-    if len1 > len2:
-        n = len1-len2
-        for indice in range(n):
-            del columnas1[indice]
-            # print(green,"igualadas",freset)
-    elif len1 < len2:
-        n = len2-len1
-        for indice in range(n):
-            columnas1.append('columnaX'+str(indice))
-            # print(green,"igualadas",freset)
-    elif len1 == len2:
-        print(green, "Listas de igual dimension", freset)
-    else:
-        pass
-# - - - - - Generar archivo que recive la informacion - - - - - -
-
-
-def guardarEnArchivo(text):  # funcion para agragar strings en el archivo resultado
-    ''' Documentacion:
-    -  recibe el como parametro la informacion para ser insertada en el archivo nuevo
-    - el nombre del archivo por defecto que se generara se llamara resultado.txt
-    '''
-    file = open("resultado.txt", "a", encoding="utf-8")
-    file.write(text)  # separa por salto de linea
-    file.close()
-
-# ---- Lectura de archivos EXCEL-------------------
-
-# transformar datos de Excel a comandos UPDATE SQL
-
-
-
-# convertir informacion de archivos de texto a sentencias INSERT SQL
-
-
+@total_time_execution
 def transportarInsert():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
     lineaSeparada = leerArchivoBase(ruta_archivo)
@@ -114,9 +49,6 @@ def transportarInsert():  # transforma los datos a comandos INSERT para luego se
 
         ini = deepcopy(comando)  # copia la variable 'comando'
 
-        print(f"{green}Tiempo de ejecucion:{freset}")
-        tiempo_inicio = datetime.now()
-        print("\t", tiempo_inicio)
         for item in lineaSeparada:
             elem_sep = item.split(',')
             # os.system("cls") # borra informacion de la consola o terminal
@@ -134,12 +66,10 @@ def transportarInsert():  # transforma los datos a comandos INSERT para luego se
             comandoLargo += comando
             comando = ini
     guardarEnArchivo(comandoLargo)
-    tiempo_final = datetime.now()
-    print("\t", tiempo_final)
 
 # convertir informacion de archivos de texto a sentencias UPDATE SQL
 
-
+@total_time_execution
 def transportarUpdate():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     os.system("cls")
     print(f'''
@@ -164,10 +94,6 @@ def transportarUpdate():  # transforma los datos a comandos INSERT para luego se
 
         ini = deepcopy(comando)  # copia la variable 'comando'
 
-        print(f"{green}Tiempo de ejecucion:{freset}")
-        tiempo_inicio = datetime.now()
-        print("\t", tiempo_inicio)
-
         for item in lineaSeparada:
             elem_sep = item.split(',')
 
@@ -187,12 +113,8 @@ def transportarUpdate():  # transforma los datos a comandos INSERT para luego se
             comandoLargo += comando
             comando = ini
     guardarEnArchivo(comandoLargo)
-    tiempo_final = datetime.now()
-    print("\t", tiempo_final)
 
-# convertir informacion de archivos de texto a sentencias DELETE SQL
-
-
+@total_time_execution
 def transportarDelete():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     os.system("cls")
     print(f'''
@@ -214,21 +136,14 @@ def transportarDelete():  # transforma los datos a comandos INSERT para luego se
 
         ini = deepcopy(comando)  # copia la variable 'comando'
         os.system("cls")
-        print(f"{green}Tiempo de ejecucion:{freset}")
-        tiempo_inicio = datetime.now()
-        print("\t", tiempo_inicio)
 
         for item in lineaSeparada:
             comando += f"{item[0].strip()}';\n"
             comandoLargo += comando
             comando = ini
     guardarEnArchivo(comandoLargo)
-    tiempo_final = datetime.now()
-    print("\t", tiempo_final)
 
-# -transformar informacion de archivo de texto a sentencias INSERT SQL para la db_consulta_red_de_amor_empresarial
-
-
+@total_time_execution
 def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     ''' Documentacion:
     - El proposito de esta funcion es generar los comandos INSERT SQL de la informacion enviada por cliente mediante Tickets de Seus.
@@ -339,9 +254,9 @@ def inicio():
         elif opt == '4':
             transportar_aJson2_redAmor()
         elif opt == '5':
-            excelInsert()
+            excelInsert(numerosStr, predeterminados, guardarEnArchivo)
         elif opt == '6':
-            excelUpdate()
+            excelUpdate(numerosStr, predeterminados, guardarEnArchivo )
         elif opt == '7':
             excelXML()
         elif opt == '*':

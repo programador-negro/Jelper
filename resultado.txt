@@ -1205,3 +1205,12 @@ INSERT INTO `apps`(`name`,`ubication`,`server_type`,`server_name`,`implement_sta
 /home/vegeta/.virtualenvs/
 /tmp/','nan','nan','TIGO','nan','nan','nan','Bitbucket','nan','nan','nan','nan','Andrea Alzate','nan','nan','nan','nan','NO','NO','NO','nan');
 INSERT INTO `apps`(`name`,`ubication`,`server_type`,`server_name`,`implement_state`,`incident_state`,`server_1`,`operating_system`,`backup_path`,`db_server`,`db_name`,`client`,`client_2`,`frontend_repository`,`backend_repository`,`repository_provider`,`technical_documentation`,`url`,`url_backend`,`url_radware`,`developer`,`specialist`,`description`,`functional_manager`,`processes`,`scheduled_events`,`user_manual`,`have_cnx_api`,`url_cnx_api`) VALUES('Backend Migracol',' ','Producción','emt-mobileapp','produccion','operacional','10.1.1.74',' ',' ','UNIDAD ADMINISTRATIVA ESPECIAL MIGRACION COLOMBIA','SC - MIGRACOL',' ',' ','Bitbucket','Enterprise Architect','migracol.emtelco.co',' ','migracol.emtelco.co',' ','DIEGO ALEJANDRO MONA CATANO ','Backend para la publicación de información de Migración Colombia en la aplicación Movil',' ','SAC','No','No','no','nan','nan','nan');
+INSERT INTO tabla(`Nombre`,`Apellido `,`Edad`) VALUES('carlos','perez','20');
+INSERT INTO tabla(`Nombre`,`Apellido `,`Edad`) VALUES('juan','lopez','30');
+INSERT INTO tabla(`Nombre`,`Apellido `,`Edad`) VALUES('pedro','zamora','25');
+INSERT INTO t(`Nombre`,`Apellido `,`Edad`) VALUES('carlos','perez','20');
+INSERT INTO t(`Nombre`,`Apellido `,`Edad`) VALUES('juan','lopez','30');
+INSERT INTO t(`Nombre`,`Apellido `,`Edad`) VALUES('pedro','zamora','25');
+UPDATE t SET Apellido  = 'perez',Edad = '20' WHERE Nombre = carlos;
+UPDATE t SET Apellido  = 'lopez',Edad = '30' WHERE Nombre = juan;
+UPDATE t SET Apellido  = 'zamora',Edad = '25' WHERE Nombre = pedro;
