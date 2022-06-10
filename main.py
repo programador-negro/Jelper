@@ -32,17 +32,17 @@ def inicio():
         print(f'''
         {Fore.BLACK+Back.WHITE}\U0001F41E YO TE AYUDO \U0001F41E {Back.RESET+Fore.RESET}
 
-        #️⃣ Select option:
+        #️⃣ Select 0ption:
 
-        1️⃣ - INSERT
-        2️⃣ - UPDATE
-        3️⃣ - DELETE
-        4️⃣ - transportar a JSON2 red Amor
-        5️⃣ - Excel a Insert
-        6️⃣ - Excel to Update
+        1️⃣ - Txt to INSERT
+        2️⃣ - Txt to UPDATE
+        3️⃣ - Txt to DELETE
+        4️⃣ - transport to JSON red Amor
+        5️⃣ - Excel to INSERT
+        6️⃣ - Excel to UPDATE
         7️⃣ - Excel to XML
         
-        [{red}*{freset}] - SALIR 
+        [{red}*{freset}] - GO OUT
         ''')
         opt = input("R/: ")
         if opt == '1':
