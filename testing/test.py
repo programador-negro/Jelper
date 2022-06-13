@@ -55,7 +55,7 @@ def igualador(columnas1, lista2):
 
 
 def addend_arch(text): # funcion para agragar strings en el archivo resultado
-    file = open("resultado.txt","a",encoding="utf-8")
+    file = open("./response/resultado.txt","a",encoding="utf-8")
     file.write(text+"\n") # separa por salto de linea
     file.close()
 

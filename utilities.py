@@ -51,6 +51,6 @@ def save_file(text):  # funcion para agragar strings en el archivo resultado
     -  recibe el como parametro la informacion para ser insertada en el archivo nuevo
     - el nombre del archivo por defecto que se generara se llamara resultado.txt
     '''
-    file = open("resultado.txt", "a", encoding="utf-8")
+    file = open("./response/resultado.txt", "a", encoding="utf-8")
     file.write(text)  # separa por salto de linea
     file.close()
