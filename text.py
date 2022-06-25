@@ -21,7 +21,7 @@ def transport_insert(numerosStr, predeterminados, path_param=None, table_param=N
             predeterminados: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
 
     '''
-    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}') if path_param == None else path_param
+    ruta_archivo = input('ingrese la ruta del archivo: ') if path_param == None else path_param
     lineaSeparada = leerArchivoBase(ruta_archivo)
     comandoLargo = ""
     if lineaSeparada:
@@ -75,8 +75,8 @@ def transport_update(numerosStr, predeterminados):  # transforma los datos a com
     lineaSeparada = leerArchivoBase(ruta_archivo)
     comandoLargo = ""
     if lineaSeparada:
-        tabla = input('Tabla: ')
-        columnas = input('Columnas: ').split()
+        tabla, columnas = input('Tabla: '),  input('Columnas: ').split()
+        
         comando = f"UPDATE {tabla} SET "
 
         # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
