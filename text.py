@@ -6,17 +6,27 @@ from decorators import total_time_execution
 import os
 from copy import deepcopy  
 
-
 init()  # inicializador de colores de terminal
+
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET 
-@total_time_execution
-def transport_insert(numerosStr, predeterminados):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
-    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
+
+@total_time_execution # calcula el tiempo de ejecucion de la funcion
+def transport_insert(numerosStr, predeterminados, path_param=None, table_param=None, columns_param=None):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+    ''' 
+    DocString
+        target:
+            transforma los datos a comandos INSERT para luego ser usados en MySQL
+        params:
+            numerosStr: list, lista de numeros que deben ser convertidos a tipo entero
+            predeterminados: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
+
+    '''
+    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}') if path_param == None else path_param
     lineaSeparada = leerArchivoBase(ruta_archivo)
     comandoLargo = ""
     if lineaSeparada:
-        tabla = input('Tabla: ')
-        columnas = input('Columnas: ').split()
+        tabla = input('Tabla: ') if table_param == None else table_param
+        columnas = input('Columnas: ').split() if columns_param == None else columns_param
         comando = f"INSERT INTO {tabla}("
 
         # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
