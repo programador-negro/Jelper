@@ -1,68 +1,73 @@
+from sys import excepthook
+from typing import final
 from utilities import leer_archivo_base as leerArchivoBase
-from utilities import equalizer as igualador
 from utilities import save_file as guardarEnArchivo
-from colorama import Back, Fore, init
+from utilities import equalizer as igualador
 from decorators import total_time_execution
+from colorama import Fore, init
+from copy import deepcopy
 import os
-from copy import deepcopy  
 
 init()  # inicializador de colores de terminal
 
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET 
 
 @total_time_execution # calcula el tiempo de ejecucion de la funcion
-def transport_insert(numerosStr, predeterminados, path_param=None, table_param=None, columns_param=None):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+def transport_insert(numerosStr: set, predeterminados: set, path_param: str = None, table_param: str =None, columns_param: str = None):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     ''' 
     DocString
         target:
             transforma los datos a comandos INSERT para luego ser usados en MySQL
         params:
-            numerosStr: list, lista de numeros que deben ser convertidos a tipo entero
+            numerosStr: list, lista de números que deben ser convertidos a tipo entero
             predeterminados: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
 
     '''
-    ruta_archivo = input('ingrese la ruta del archivo: ') if path_param == None else path_param
-    lineaSeparada = leerArchivoBase(ruta_archivo)
-    comandoLargo = ""
-    if lineaSeparada:
-        tabla = input('Tabla: ') if table_param == None else table_param
-        columnas = input('Columnas: ').split() if columns_param == None else columns_param
-        comando = f"INSERT INTO {tabla}("
+    try:
+        ruta_archivo: str = input('ingrese la ruta del archivo: ') if path_param == None else path_param
+        lineaSeparada = leerArchivoBase(ruta_archivo)
+        comandoLargo: str = ""
+        if lineaSeparada:
+            tabla: str = input('Tabla: ') if table_param == None else table_param
+            columnas: str = input('Columnas: ').split() if columns_param == None else columns_param
+            comando: str = f"INSERT INTO {tabla}("
 
-        # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
-        tempList = lineaSeparada[0].split(",")
-        os.system("cls")
-        igualador(columnas, tempList)
+            # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
+            tempList = lineaSeparada[0].split(",")
+            os.system("cls")
+            igualador(columnas, tempList)
 
-        for colum in columnas:
-            comando += f"{colum.strip()},"  # agrega las columnas ingresadas
+            for colum in columnas:
+                comando += f"{colum.strip()},"  # agrega las columnas ingresadas
 
-        # borra la ultima coma que sobra del string, la cual genera el for anterior
-        comando = comando[:-1]
-        comando += ") VALUES("
-
-        ini = deepcopy(comando)  # copia la variable 'comando'
-
-        for item in lineaSeparada:
-            elem_sep = item.split(',')
-            for one_item in elem_sep:
-                # valida si alguno de los campos son de tipo numero para colocarlos sin comillas
-                if one_item in numerosStr or one_item in predeterminados:
-                    comando += f" {one_item.strip()},"
-                else:
-                    comando += f" '{one_item.strip()}',"
-
+            # borra la ultima coma que sobra del string, la cual genera el for anterior
             comando = comando[:-1]
-            comando += ");\n"
+            comando += ") VALUES("
 
-            comandoLargo += comando
-            comando = ini
-    guardarEnArchivo(comandoLargo)
+            ini = deepcopy(comando)  # copia la variable 'comando'
 
-# convertir informacion de archivos de texto a sentencias UPDATE SQL
+            for item in lineaSeparada:
+                elem_sep = item.split(',')
+                for one_item in elem_sep:
+                    # valida si alguno de los campos son de tipo numero para colocarlos sin comillas
+                    if one_item in numerosStr or one_item in predeterminados:
+                        comando += f" {one_item.strip()},"
+                    else:
+                        comando += f" '{one_item.strip()}',"
+
+                comando = comando[:-1]
+                comando += ");\n"
+
+                comandoLargo += comando
+                comando = ini
+        guardarEnArchivo(comandoLargo)
+    except Exception as ex:
+        print(f"ERROR: {ex}")
+    finally:
+        print("<< No fue posible seguir ejecutando el programa >>")
 
 @total_time_execution
-def transport_update(numerosStr, predeterminados):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+def transport_update(numerosStr: set, predeterminados: set):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     os.system("cls")
     print(f'''
     |--------{red} ADVERTENCIA {freset}--------|
@@ -71,40 +76,45 @@ def transport_update(numerosStr, predeterminados):  # transforma los datos a com
     la columna condicional de WHERE
     |-----------------------------|
     ''')
-    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
-    lineaSeparada = leerArchivoBase(ruta_archivo)
-    comandoLargo = ""
-    if lineaSeparada:
-        tabla, columnas = input('Tabla: '),  input('Columnas: ').split()
-        
-        comando = f"UPDATE {tabla} SET "
+    try:
+        ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
+        lineaSeparada = leerArchivoBase(ruta_archivo)
+        comandoLargo = ""
+        if lineaSeparada:
+            tabla, columnas = input('Tabla: '),  input('Columnas: ').split()
+            
+            comando = f"UPDATE {tabla} SET "
 
-        # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
-        tempList = lineaSeparada[0].split(",")
-        os.system("cls")
-        igualador(columnas, tempList)
+            # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
+            tempList = lineaSeparada[0].split(",")
+            os.system("cls")
+            igualador(columnas, tempList)
 
-        ini = deepcopy(comando)  # copia la variable 'comando'
+            ini = deepcopy(comando)  # copia la variable 'comando'
 
-        for item in lineaSeparada:
-            elem_sep = item.split(',')
+            for item in lineaSeparada:
+                elem_sep = item.split(',')
 
-            for inx in range(len(elem_sep)):
-                # Evita colocar la columna condicional despues de WHERE dentro de SET
-                if elem_sep.index(elem_sep[inx]) != 0:
-                    if elem_sep[inx] in numerosStr or elem_sep[inx] in predeterminados:
-                        comando = f"{columnas[inx].strip()}={elem_sep[inx].strip()},"
+                for inx in range(len(elem_sep)):
+                    # Evita colocar la columna condicional despues de WHERE dentro de SET
+                    if elem_sep.index(elem_sep[inx]) != 0:
+                        if elem_sep[inx] in numerosStr or elem_sep[inx] in predeterminados:
+                            comando = f"{columnas[inx].strip()}={elem_sep[inx].strip()},"
+                        else:
+                            comando += f"{columnas[inx].strip()}='{elem_sep[inx].strip()}',"
                     else:
-                        comando += f"{columnas[inx].strip()}='{elem_sep[inx].strip()}',"
-                else:
-                    continue
+                        continue
 
-            comando = comando[:-1]
-            comando += f" WHERE {columnas[0].strip()}='{elem_sep[0].strip()}';\n"
+                comando = comando[:-1]
+                comando += f" WHERE {columnas[0].strip()}='{elem_sep[0].strip()}';\n"
 
-            comandoLargo += comando
-            comando = ini
-    guardarEnArchivo(comandoLargo)
+                comandoLargo += comando
+                comando = ini
+        guardarEnArchivo(comandoLargo)
+    except Exception as ex:
+        print(f"ERROR: {ex}")
+    finally:
+        print("<< No fue posible seguir ejecutando el programa >>")
 
 @total_time_execution
 def transport_delete():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
@@ -117,23 +127,28 @@ def transport_delete():  # transforma los datos a comandos INSERT para luego ser
     seran tomadas en cuenta
     |-----------------------------|
     ''')
-    ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
-    lineaSeparada = leerArchivoBase(ruta_archivo)
-    comandoLargo = ""
-    if lineaSeparada:
-        tabla = input('Tabla: ')
-        columnas = input('Columna: ').split()
-        columnas = columnas[0]
-        comando = f"DELETE FROM {tabla} WHERE {columnas}= '"
+    try:
+        ruta_archivo: str = input('ingrese la ruta del archivo: ')
+        lineaSeparada = leerArchivoBase(ruta_archivo)
+        comandoLargo: str = ""
+        if lineaSeparada:
+            tabla = input('Tabla: ')
+            columnas = input('Columna: ').split()
+            columnas = columnas[0]
+            comando = f"DELETE FROM {tabla} WHERE {columnas}= '"
 
-        ini = deepcopy(comando)  # copia la variable 'comando'
-        os.system("cls")
+            ini = deepcopy(comando)  # copia la variable 'comando'
+            os.system("cls")
 
-        for item in lineaSeparada:
-            comando += f"{item[0].strip()}';\n"
-            comandoLargo += comando
-            comando = ini
-    guardarEnArchivo(comandoLargo)
+            for item in lineaSeparada:
+                comando += f"{item[0].strip()}';\n"
+                comandoLargo += comando
+                comando = ini
+        guardarEnArchivo(comandoLargo)
+    except Exception as ex:
+        print(f"ERROR: {ex}")
+    finally:
+        print("<< No fue posible seguir ejecutando el programa >>")
 
 @total_time_execution
 def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
@@ -218,4 +233,7 @@ def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para
             guardarEnArchivo(queryX)
     except Exception as ex:
         print(ex)
+    finally:
+        print("<< No fue posible seguir ejecutando el programa >>")
+
 # - - - - Inicio de la ejecucion del programa - - - -

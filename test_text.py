@@ -1,29 +1,42 @@
 from text import transport_insert
 from main import numerosStr, predeterminados
 
-def read_lines():
+def read_lines(validate_insert_param = False):
     total = set()
-    with open("./response/resultado.txt") as file:
-        total.add(len(file.readlines()))
-    with open("./receiver/receptor.txt") as file:
-        total.add(len(file.readlines()))
-    return total
+    if validate_insert_param:
+        with open("./response/resultado.txt") as file:
+            lines: list = file.readlines()
+            suma, result = len(lines), 0
+            for x in lines:
+                if x[0:6] == 'INSERT' or x[0:6] == 'insert':
+                    result += 1
+        if suma == result: return True
+        else: return False
+    else:
+        with open("./response/resultado.txt") as file:
+            total.add(len(file.readlines()))
+        with open("./receiver/receptor.txt") as file:
+            total.add(len(file.readlines()))
+        return total
 
 def test_insert():
     '''
     target:
         prueba de conversion de datos de archivo de texto a comandos de insercion en SQL / INSERT
     state:
-        development
+        finished
     '''
 
-    transport_insert(
-        numerosStr,
-        predeterminados,
-        path_param = "./receiver/receptor.txt", 
-        table_param = "people", 
-        columns_param = "4")
-    
-    read_lines()
-
+    transport_insert(numerosStr, predeterminados, path_param = "./receiver/receptor.txt", table_param = "people", columns_param = "4")
     assert read_lines() == {3, 3}
+
+def test_start_with_insert():
+    '''
+    target:
+        prueba que cada linea del archivo inicie con la palabra INSERT
+    state:
+        finished
+    '''
+
+    transport_insert(numerosStr, predeterminados, path_param = "./receiver/receptor.txt", table_param = "people", columns_param = "4")
+    assert read_lines(validate_insert_param = True) == True

@@ -13,14 +13,13 @@ from text import transportar_aJson2_redAmor, transport_delete as transportarDele
 
 ''' Pendientes para desarrollar:
 
-- crear formato para carga masiva de excel en red amor empresarial.
 - desarrollar la selección automática de hojas del archivo.
 - desarrollar opción para abrir interfaz gráfica del programa, por medio de un commando.
 - desarrollar una interfaz gráfica en c# para la lectura de archivos
 - agregar pruebas unitarias
 - buscar la forma de ofuscar el codigo
 - agregar modulo para insertar datos en base de datos
-
+- agregar modulo para insertar datos desde una API JSON
 
 
 
@@ -28,8 +27,8 @@ from text import transportar_aJson2_redAmor, transport_delete as transportarDele
 init()  # inicializador de colores de terminal
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
-numerosStr : list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\t1\t', '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t']
-predeterminados : list = ['null', 'NULL', 'Null', 'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP']
+numerosStr : set = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\t1\t', '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t'}
+predeterminados : list = {'null', 'NULL', 'Null', 'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP'}
 
 def inicio():
     suitch = True
