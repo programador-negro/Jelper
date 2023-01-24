@@ -6,9 +6,9 @@ from colorama import init, Fore, Back
 from decorators import total_time_execution
 
 @total_time_execution
-def excelUpdate(num_str: set, pred: set, addend_arch):
-    numeros_string = num_str
-    predeterminados = pred
+def excelUpdate(numbers: set, statements: set, save_on_file):
+    numeros_string = numbers
+    predeterminados = statements
     try:
         dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
         hoja = input("Nombre de hoja: ")
@@ -46,13 +46,14 @@ def excelUpdate(num_str: set, pred: set, addend_arch):
             print(comando)
 
             comando = query
-        addend_arch(contenido)
+        save_on_file(contenido)
 
     except Exception as ex:
 
         print(f"\U0000274C ERROR: {ex}")
     finally:
-        print("<< No fue posible seguir ejecutando el programa >>")
+        print("ERROR: No fue posible seguir ejecutando el programa.")
+
 
 # transformar datos de Excel a XML
 @total_time_execution
@@ -93,13 +94,13 @@ def excelXML():
     except Exception as ex:
         print(f" 🚨 ERROR: " + ex)
 
-# transformar datos de Excel a comandos INSERT SQL
 
+# transformar datos de Excel a comandos INSERT SQL
 @total_time_execution
-def excelInsert(num_str:str, pred: str, addend_arch: str):
+def excelInsert(numbers: str, statements: str, save_on_file):
     try:
-        numeros_string = num_str
-        predeterminados = pred
+        numeros_string = numbers
+        predeterminados = statements
         dirFile = input('ingrese la ruta del archivo: ')
         hoja = input("Nombre de hoja: ")
         tabla = input("Nombre de tabla: ")
@@ -133,11 +134,10 @@ def excelInsert(num_str:str, pred: str, addend_arch: str):
 
             comando = comando[:-1]  # Elimina la ultima coma del String
             comando += ");\n"  # salto de linea
-            addend_arch(comando)
+            save_on_file(comando)
             print(comando)
-            addend_arch(comando)
             comando = query
     except Exception as ex:
         print(f"ERROR: {ex}")
     finally:
-        print("<< No fue posible seguir ejecutando el programa >>")
+        print("ERROR: No fue posible seguir ejecutando el programa")
