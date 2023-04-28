@@ -22,3 +22,5 @@ logger_manager.py <module> 16 root INFO 2023-04-27 23:54:54,654 This is just an 
 main.py <module> 11 root INFO 2023-04-27 23:54:54,655 Stating Program
 logger_manager.py <module> 16 root INFO 2023-04-27 23:56:06,785 This is just an information for you
 main.py <module> 11 root INFO 2023-04-27 23:56:06,785 Stating Program
+logger_manager.py <module> 16 root INFO 2023-04-27 23:57:09,765 This is just an information for you
+main.py <module> 11 root INFO 2023-04-27 23:57:09,765 Stating Program
