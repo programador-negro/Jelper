@@ -1,4 +1,4 @@
-from text import transport_insert
+from text_manager import transport_insert
 from main import numerosStr, predeterminados
 
 def read_lines(validate_insert_param = False):
