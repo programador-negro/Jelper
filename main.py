@@ -2,9 +2,13 @@
 import os  # para borrar la inforamcion impresa en la terminal o consola
 # para copiar las variables de algunas funciones
 from colorama import Back, Fore, init
-from excel import excelInsert, excelUpdate, excelXML
+from excel_manager import excelInsert, excelUpdate, excelXML
 from utilities import save_file
-from text import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert as transportarInsert, transport_update as transportarUpdate
+from text_manager import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert as transportarInsert, transport_update as transportarUpdate
+import logger_manager, logging
+# import logging
+
+logging.info('Stating Program')
 
 ''' Pendientes para desarrollar:
 
@@ -43,31 +47,34 @@ def inicio():
         5️⃣  Excel to INSERT
         6️⃣  Excel to UPDATE
         7️⃣  Excel to XML
-        
+
         [{red}*{freset}] - GO OUT
         ''')
+
         opt = input("R/: ")
-        if opt == '1':
-            transportarInsert(numbers, statements)
-        elif opt == '2':
-            transportarUpdate(numbers, statements)
-        elif opt == '3':
-            transportarDelete()
-        elif opt == '4':
-            transportar_aJson2_redAmor()
-        elif opt == '5':
-            excelInsert(numbers, statements, save_file)
-        elif opt == '6':
-            excelUpdate(numbers, statements, save_file)
-        elif opt == '7':
-            excelXML()
-        elif opt == '*':
-            print(Fore.BLUE+"¡ADIOS!"+Fore.RESET)
-            break
-            quit()
-        else:
-            os.system("cls")  # borra informacion de la consola o terminal
-            print(Fore.RED, '💢 ¡OPCION INCORRECTA!', Fore.RESET)
+
+        match opt:
+            case '1':
+                transportarInsert(numbers, statements)
+            case '2':
+                transportarUpdate(numbers, statements)
+            case '3':
+                transportarDelete()
+            case '4':
+                transportar_aJson2_redAmor()
+            case '5':
+                excelInsert(numbers, statements, save_file)
+            case '6':
+                excelUpdate(numbers, statements, save_file)
+            case '7':
+                excelXML()
+            case '*':
+                print(Fore.BLUE+"¡ADIOS!"+Fore.RESET)
+                break
+                quit()
+            case _:
+                os.system("cls")  # borra informacion de la consola o terminal
+                print(Fore.RED, '\n💢 ¡OPCION INCORRECTA!', Fore.RESET)
 
 
 # ----------- ejecucion ------------

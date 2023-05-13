@@ -1,0 +1,26 @@
+2023-04-27 23:46:22,909 This is just a harmless debug message
+2023-04-27 23:46:22,909 This is just an information for you
+2023-04-27 23:46:22,909 OOPS!!!Its a Warning
+2023-04-27 23:46:22,909 Have you try to divide a number by zero
+2023-04-27 23:46:22,909 The Internet is not working....
+root DEBUG 2023-04-27 23:47:11,287 This is just a harmless debug message
+root INFO 2023-04-27 23:47:11,287 This is just an information for you
+root WARNING 2023-04-27 23:47:11,287 OOPS!!!Its a Warning
+root ERROR 2023-04-27 23:47:11,287 Have you try to divide a number by zero
+root CRITICAL 2023-04-27 23:47:11,287 The Internet is not working....
+logger_manager.py <module> 15 root DEBUG 2023-04-27 23:48:14,939 This is just a harmless debug message
+logger_manager.py <module> 16 root INFO 2023-04-27 23:48:14,940 This is just an information for you
+logger_manager.py <module> 17 root WARNING 2023-04-27 23:48:14,940 OOPS!!!Its a Warning
+logger_manager.py <module> 18 root ERROR 2023-04-27 23:48:14,940 Have you try to divide a number by zero
+logger_manager.py <module> 19 root CRITICAL 2023-04-27 23:48:14,940 The Internet is not working....
+logger_manager.py <module> 16 root INFO 2023-04-27 23:50:10,362 This is just an information for you
+logger_manager.py <module> 16 root INFO 2023-04-27 23:50:36,202 This is just an information for you
+main.py <module> 10 root INFO 2023-04-27 23:50:36,202 testing
+logger_manager.py <module> 16 root INFO 2023-04-27 23:51:25,615 This is just an information for you
+main.py <module> 11 root INFO 2023-04-27 23:51:25,615 testing
+logger_manager.py <module> 16 root INFO 2023-04-27 23:54:54,654 This is just an information for you
+main.py <module> 11 root INFO 2023-04-27 23:54:54,655 Stating Program
+logger_manager.py <module> 16 root INFO 2023-04-27 23:56:06,785 This is just an information for you
+main.py <module> 11 root INFO 2023-04-27 23:56:06,785 Stating Program
+logger_manager.py <module> 16 root INFO 2023-04-27 23:57:09,765 This is just an information for you
+main.py <module> 11 root INFO 2023-04-27 23:57:09,765 Stating Program
