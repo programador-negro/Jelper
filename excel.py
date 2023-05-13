@@ -1,9 +1,7 @@
-import os
 import pandas as pd # para lectura de la informacion de Excel
 from copy import deepcopy
-from datetime import datetime
-from colorama import init, Fore, Back
 from decorators import total_time_execution
+
 
 @total_time_execution
 def excelUpdate(numbers: set, statements: set, save_on_file):

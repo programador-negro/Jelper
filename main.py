@@ -22,9 +22,9 @@ init()  # inicializador de colores de terminal
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
 numbers: set = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\t1\t',
-                   '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t'}
-statements: list = {'null', 'NULL', 'Null',
-                         'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP'}
+                '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t'}
+statements: list = {'null', 'NULL', 'Null', 'nUll', 'current_timestamp', 
+                    'CURRENT_TIMESTAMP'}
 
 
 def inicio():

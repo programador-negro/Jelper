@@ -1,6 +1,7 @@
 import pymysql.cursors as pycursors
 from config.settings import DATABASES
 
+
 connection = pymysql.connect(
     host=DATABASES['default']['host'],
     user=DATABASES['default']['user'],

@@ -3,6 +3,7 @@ from colorama import Back, Fore
 from datetime import datetime
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
+
 def leer_archivo_base(path: str):
     ''' 
     Doc:
@@ -27,6 +28,7 @@ def leer_archivo_base(path: str):
             return False
     except Exception as err:
         return err
+
 
 def equalizer(columnas1: str, lista2: list):
     ''' 

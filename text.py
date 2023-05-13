@@ -1,5 +1,3 @@
-from sys import excepthook
-from typing import final
 from utilities import leer_archivo_base as leerArchivoBase
 from utilities import save_file as guardarEnArchivo
 from utilities import equalizer as igualador
@@ -11,6 +9,7 @@ import os
 init()  # inicializador de colores de terminal
 
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET 
+
 
 @total_time_execution # calcula el tiempo de ejecucion de la funcion
 def transport_insert(numerosStr: set, predeterminados: set, path_param: str = None, table_param: str =None, columns_param: str = None):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
@@ -66,6 +65,7 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
     finally:
         print("<< No fue posible seguir ejecutando el programa >>")
 
+
 @total_time_execution
 def transport_update(numerosStr: set, predeterminados: set):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     os.system("cls")
@@ -116,6 +116,7 @@ def transport_update(numerosStr: set, predeterminados: set):  # transforma los d
     finally:
         print("<< No fue posible seguir ejecutando el programa >>")
 
+
 @total_time_execution
 def transport_delete():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
     os.system("cls")
@@ -149,6 +150,7 @@ def transport_delete():  # transforma los datos a comandos INSERT para luego ser
         print(f"ERROR: {ex}")
     finally:
         print("<< No fue posible seguir ejecutando el programa >>")
+
 
 @total_time_execution
 def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
@@ -235,5 +237,3 @@ def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para
         print(ex)
     finally:
         print("<< No fue posible seguir ejecutando el programa >>")
-
-# - - - - Inicio de la ejecucion del programa - - - -
