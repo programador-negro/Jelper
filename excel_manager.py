@@ -1,12 +1,17 @@
-import pandas as pd # para lectura de la informacion de Excel
+import pandas as pd  # para lectura de la informacion de Excel
 from copy import deepcopy
 from decorators import total_time_execution
 
 
 @total_time_execution
 def excelUpdate(numbers: set, statements: set, save_on_file):
+    '''
+    take excel file records and convert them into SQL Update query one by one
+    '''
+
     numeros_string = numbers
     predeterminados = statements
+
     try:
         dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
         hoja = input("Nombre de hoja: ")
@@ -56,6 +61,9 @@ def excelUpdate(numbers: set, statements: set, save_on_file):
 # transformar datos de Excel a XML
 @total_time_execution
 def excelXML():
+    '''
+    take excel file records and convert them into XML code, one by one
+    '''
 
     try:
         dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
@@ -78,16 +86,16 @@ def excelXML():
             comando += "/>\n"  # salto de linea
             contenido += comando
             comando = query
-        print("-<transaccion_siebel> " + \
-        "-<TT> " + \
-        "-<SiebelMessage> " + \
-        "-<psRegistro>" + \
-                contenido + \
-                "</psRegistro>"
-                "</SiebelMessage>" + \
-                "</TT>" + \
-                "</transaccion_siebel>"
-        )
+        print("-<transaccion_siebel> " +
+              "-<TT> " +
+              "-<SiebelMessage> " +
+              "-<psRegistro>" +
+              contenido +
+              "</psRegistro>"
+              "</SiebelMessage>" +
+              "</TT>" +
+              "</transaccion_siebel>"
+              )
 
     except Exception as ex:
         print(f" 🚨 ERROR: " + ex)
@@ -96,6 +104,10 @@ def excelXML():
 # transformar datos de Excel a comandos INSERT SQL
 @total_time_execution
 def excelInsert(numbers: str, statements: str, save_on_file):
+    '''
+    take excel file records and convert them into SQL Insert query one by one
+    '''
+
     try:
         numeros_string = numbers
         predeterminados = statements

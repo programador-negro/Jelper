@@ -3,6 +3,9 @@ from colorama import Fore
 
 
 def total_time_execution(function):
+    '''
+    get execution time when a function runs
+    '''
     def container(*args, **kwargs):
         start_time = datetime.now()
         function(*args, **kwargs)
