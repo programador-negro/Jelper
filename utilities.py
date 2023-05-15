@@ -1,5 +1,6 @@
 import os
 from colorama import Fore
+
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
 
@@ -13,6 +14,7 @@ def leer_archivo_base(path: str):
             path: str, se le pasa como parámetro la ruta del archivo del cual
             se desea leer la informacion.
     '''
+
     try:
         if os.path.isfile(path):  # valida si el archivo existe
             file = open(path, 'r', encoding="utf-8")
@@ -20,13 +22,15 @@ def leer_archivo_base(path: str):
             file.close()
             # separa por linea cada comando SQL 21395617-18
             lista = lectura.split('\n')
+
             return lista
+        
         else:
             os.system("cls")
 
             print(red, 'La ruta no pertenece a un archivo', freset)
             raise ValueError('La ruta no pertenece a un archivo')
-            return False
+        
     except Exception as err:
         return err
 
@@ -56,7 +60,6 @@ def equalizer(columnas1: str, lista2: list):
     else:
         pass
 
-
 def save_file(text: str):  # función para agregar strings en el archivo resultado
     '''
     Doc:
@@ -65,5 +68,6 @@ def save_file(text: str):  # función para agregar strings en el archivo resulta
         params:
             text: str, recibe el como parámetro la información para ser insertada en el archivo nuevo
     '''
+
     with open(f"./inbox/resultado.txt", "w", encoding="utf-8") as file:
         file.write(text)  # separa por salto de linea
