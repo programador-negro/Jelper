@@ -36,7 +36,8 @@ emoji_bug = config['emojis'].get('bug')
 emoji_irritate = config['emojis'].get('irritate')
 
 
-statements: set = {'null', 'NULL', 'Null', 'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP'}
+statements: set = {'null', 'NULL', 'Null', 'nUll',
+                   'current_timestamp', 'CURRENT_TIMESTAMP'}
 
 
 def inicio():
@@ -82,7 +83,8 @@ def inicio():
                 quit()
             case _:
                 os.system("cls")  # borra informacion de la consola o terminal
-                print(Fore.RED, f'\n{emoji_irritate} ¡OPCION INCORRECTA!', Fore.RESET)
+                print(
+                    Fore.RED, f'\n{emoji_irritate} ¡OPCION INCORRECTA!', Fore.RESET)
 
 
 # ----------- ejecucion ------------

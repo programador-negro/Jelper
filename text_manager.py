@@ -8,11 +8,11 @@ import os
 
 init()  # inicializador de colores de terminal
 
-red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET 
+red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
 
-@total_time_execution # calcula el tiempo de ejecucion de la funcion
-def transport_insert(numerosStr: set, predeterminados: set, path_param: str = None, table_param: str =None, columns_param: str = None):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+@total_time_execution  # calcula el tiempo de ejecucion de la funcion
+def transport_insert(numerosStr: set, predeterminados: set, path_param: str = None, table_param: str = None, columns_param: str = None):
     ''' 
     DocString
         target:
@@ -23,12 +23,15 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
 
     '''
     try:
-        ruta_archivo: str = input('ingrese la ruta del archivo: ') if path_param == None else path_param
+        ruta_archivo: str = input(
+            'ingrese la ruta del archivo: ') if path_param == None else path_param
         lineaSeparada = leerArchivoBase(ruta_archivo)
         comandoLargo: str = ""
         if lineaSeparada:
-            tabla: str = input('Tabla: ') if table_param == None else table_param
-            columnas: str = input('Columnas: ').split() if columns_param == None else columns_param
+            tabla: str = input(
+                'Tabla: ') if table_param == None else table_param
+            columnas: str = input('Columnas: ').split(
+            ) if columns_param == None else columns_param
             comando: str = f"INSERT INTO {tabla}("
 
             # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
@@ -37,7 +40,8 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
             igualador(columnas, tempList)
 
             for colum in columnas:
-                comando += f"{colum.strip()},"  # agrega las columnas ingresadas
+                # agrega las columnas ingresadas
+                comando += f"{colum.strip()},"
 
             # borra la ultima coma que sobra del string, la cual genera el for anterior
             comando = comando[:-1]
@@ -67,7 +71,8 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
 
 
 @total_time_execution
-def transport_update(numerosStr: set, predeterminados: set):  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+# transforma los datos a comandos INSERT para luego ser usados en MySQL
+def transport_update(numerosStr: set, predeterminados: set):
     os.system("cls")
     print(f'''
     |--------{red} ADVERTENCIA {freset}--------|
@@ -82,7 +87,7 @@ def transport_update(numerosStr: set, predeterminados: set):  # transforma los d
         comandoLargo = ""
         if lineaSeparada:
             tabla, columnas = input('Tabla: '),  input('Columnas: ').split()
-            
+
             comando = f"UPDATE {tabla} SET "
 
             # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
