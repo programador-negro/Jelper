@@ -65,5 +65,5 @@ def save_file(text: str):  # función para agregar strings en el archivo resulta
         params:
             text: str, recibe el como parámetro la información para ser insertada en el archivo nuevo
     '''
-    with open(f"./response/resultado.txt", "w", encoding="utf-8") as file:
+    with open(f"./inbox/resultado.txt", "w", encoding="utf-8") as file:
         file.write(text)  # separa por salto de linea
