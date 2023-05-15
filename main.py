@@ -2,29 +2,23 @@
 import os  # para borrar la inforamcion impresa en la terminal o consola
 # para copiar las variables de algunas funciones
 from colorama import Back, Fore, init
-from excel_manager import excelInsert, excelUpdate, excelXML
+from excel_manager import excel_insert, excel_update, excel_xml
 from utilities import save_file
-from text_manager import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert as transportarInsert, transport_update as transportarUpdate
+from text_manager import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert, transport_update as transportarUpdate
 import logging
 from config_manager import ConfigManager
 import json
 
 logging.info('Stating Program')
 
-''' Pendientes para desarrollar:
-
-- desarrollar la selección automática de hojas del archivo.
-- desarrollar opción para abrir interfaz gráfica del programa, por medio de un commando.
-- desarrollar una interfaz gráfica en c# para la lectura de archivos
-- buscar la forma de ofuscar el codigo
-- agregar modulo para insertar datos en base de datos
-- agregar modulo para insertar datos desde una API JSON
-'''
-
 
 init()  # inicializador de colores de terminal
 
-red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
+red = Fore.RED 
+green = Fore.GREEN 
+blue = Fore.BLUE 
+yellow = Fore.YELLOW 
+freset = Fore.RESET
 
 config_path = os.path.join(os.path.dirname(__file__), 'config.ini')
 
@@ -32,20 +26,29 @@ config_path = os.path.join(os.path.dirname(__file__), 'config.ini')
 config = ConfigManager(config_path).get_config()
 
 numbers: set = set(json.loads(config['data_sources'].get('numbers')))
-emoji_bug = config['emojis'].get('bug')
-emoji_irritate = config['emojis'].get('irritate')
+statements: set = set(json.loads(config['data_sources'].get('sql_statements')))
+emoji_bug: str = config['emojis'].get('bug')
+emoji_irritate: str = config['emojis'].get('irritate')
 
+txt_filename: str = config['data_sources'].get('txt_filename')
+xlsx_filename: str = config['data_sources'].get('xlsx_filename')
 
-statements: set = {'null', 'NULL', 'Null', 'nUll',
-                   'current_timestamp', 'CURRENT_TIMESTAMP'}
+# File path to save results
+inbox_path: str = os.path.join( os.path.dirname(__file__) , 'inbox')
 
+# File path to read sources
+outbox_path: str = os.path.join( os.path.dirname(__file__) , 'outbox')
 
 def inicio():
+    '''
+    Inicio del programa
+    '''
+
     while True:
         print(f'''
                 {Fore.BLACK+Back.WHITE}{emoji_bug} \
-                YO TE AYUDO \
-                {emoji_bug} {Back.RESET+Fore.RESET}
+                YO TE AYUDO  \
+                {emoji_bug}{Back.RESET+Fore.RESET}
 
         #️⃣  Select 0ption:
 
@@ -57,14 +60,13 @@ def inicio():
         6️⃣  Excel to UPDATE
         7️⃣  Excel to XML
 
-        [{red}*{freset}] - GO OUT
-        ''')
+        [{red}*{freset}] - GO OUT \n''')
 
-        opt = input("R/: ")
+        opt = input("answer: ")
 
         match opt:
             case '1':
-                transportarInsert(numbers, statements)
+                transport_insert(numbers=numbers, statements=statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
             case '2':
                 transportarUpdate(numbers, statements)
             case '3':
@@ -72,15 +74,14 @@ def inicio():
             case '4':
                 transportar_aJson2_redAmor()
             case '5':
-                excelInsert(numbers, statements, save_file)
+                excel_insert(numbers, statements, save_file)
             case '6':
-                excelUpdate(numbers, statements, save_file)
+                excel_update(numbers, statements, save_file)
             case '7':
-                excelXML()
+                excel_xml()
             case '*':
-                print(Fore.BLUE+"¡ADIOS!"+Fore.RESET)
+                print(Fore.BLUE+"Bye!"+Fore.RESET)
                 break
-                quit()
             case _:
                 os.system("cls")  # borra informacion de la consola o terminal
                 print(

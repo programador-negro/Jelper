@@ -12,14 +12,14 @@ red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW,
 
 
 @total_time_execution  # calcula el tiempo de ejecucion de la funcion
-def transport_insert(numerosStr: set, predeterminados: set, path_param: str = None, table_param: str = None, columns_param: str = None):
+def transport_insert(numbers: set, statements: set, path_param: str = None, table_param: str = None, columns_param: str = None, inbox_path, outbox_path, filename):
     ''' 
     DocString
         target:
             transforma los datos a comandos INSERT para luego ser usados en MySQL
         params:
-            numerosStr: list, lista de números que deben ser convertidos a tipo entero
-            predeterminados: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
+            numbers: list, lista de números que deben ser convertidos a tipo entero
+            statements: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
 
     '''
     try:
@@ -53,7 +53,7 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
                 elem_sep = item.split(',')
                 for one_item in elem_sep:
                     # valida si alguno de los campos son de tipo numero para colocarlos sin comillas
-                    if one_item in numerosStr or one_item in predeterminados:
+                    if one_item in numbers or one_item in statements:
                         comando += f" {one_item.strip()},"
                     else:
                         comando += f" '{one_item.strip()}',"
@@ -72,7 +72,7 @@ def transport_insert(numerosStr: set, predeterminados: set, path_param: str = No
 
 @total_time_execution
 # transforma los datos a comandos INSERT para luego ser usados en MySQL
-def transport_update(numerosStr: set, predeterminados: set):
+def transport_update(numbers: set, statements: set):
     os.system("cls")
     print(f'''
     |--------{red} ADVERTENCIA {freset}--------|
@@ -103,7 +103,7 @@ def transport_update(numerosStr: set, predeterminados: set):
                 for inx in range(len(elem_sep)):
                     # Evita colocar la columna condicional despues de WHERE dentro de SET
                     if elem_sep.index(elem_sep[inx]) != 0:
-                        if elem_sep[inx] in numerosStr or elem_sep[inx] in predeterminados:
+                        if elem_sep[inx] in numbers or elem_sep[inx] in statements:
                             comando = f"{columnas[inx].strip()}={elem_sep[inx].strip()},"
                         else:
                             comando += f"{columnas[inx].strip()}='{elem_sep[inx].strip()}',"

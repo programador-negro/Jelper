@@ -4,7 +4,7 @@ from decorators import total_time_execution
 
 
 @total_time_execution
-def excelUpdate(numbers: set, statements: set, save_on_file):
+def excel_update(numbers: set, statements: set, save_on_file):
     '''
     take excel file records and convert them into SQL Update query one by one
     '''
@@ -60,7 +60,7 @@ def excelUpdate(numbers: set, statements: set, save_on_file):
 
 # transformar datos de Excel a XML
 @total_time_execution
-def excelXML():
+def excel_xml():
     '''
     take excel file records and convert them into XML code, one by one
     '''
@@ -97,13 +97,13 @@ def excelXML():
               "</transaccion_siebel>"
               )
 
-    except Exception as ex:
-        print(f" 🚨 ERROR: " + ex)
+    except Exception:
+        print(" 🚨 ERROR: " + Exception)
 
 
 # transformar datos de Excel a comandos INSERT SQL
 @total_time_execution
-def excelInsert(numbers: str, statements: str, save_on_file):
+def excel_insert(numbers: str, statements: str, save_on_file):
     '''
     take excel file records and convert them into SQL Insert query one by one
     '''
@@ -147,7 +147,9 @@ def excelInsert(numbers: str, statements: str, save_on_file):
             save_on_file(comando)
             print(comando)
             comando = query
-    except Exception as ex:
-        print(f"ERROR: {ex}")
+
+    except Exception:
+        print(f"ERROR: {Exception}")
+
     finally:
         print("ERROR: No fue posible seguir ejecutando el programa")
