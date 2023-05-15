@@ -5,8 +5,9 @@ from colorama import Back, Fore, init
 from excel_manager import excelInsert, excelUpdate, excelXML
 from utilities import save_file
 from text_manager import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert as transportarInsert, transport_update as transportarUpdate
-import logger_manager, logging
-# import logging
+import logging
+from config_manager import ConfigManager
+import json
 
 logging.info('Stating Program')
 
@@ -18,25 +19,32 @@ logging.info('Stating Program')
 - buscar la forma de ofuscar el codigo
 - agregar modulo para insertar datos en base de datos
 - agregar modulo para insertar datos desde una API JSON
-
-
-
 '''
+
+
 init()  # inicializador de colores de terminal
+
 red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
 
-numbers: set = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '\t1\t',
-                '\t2\t', '\t3\t', '\t4\t', '\t5\t', '\t6\t', '\t7\t', '\t8\t', '\t9\t', '\t0\t'}
-statements: list = {'null', 'NULL', 'Null', 'nUll', 'current_timestamp', 
-                    'CURRENT_TIMESTAMP'}
+config_path = os.path.join(os.path.dirname(__file__), 'config.ini')
+
+
+config = ConfigManager(config_path).get_config()
+
+numbers: set = set(json.loads(config['data_sources'].get('numbers')))
+emoji_bug = config['emojis'].get('bug')
+emoji_irritate = config['emojis'].get('irritate')
+
+
+statements: set = {'null', 'NULL', 'Null', 'nUll', 'current_timestamp', 'CURRENT_TIMESTAMP'}
 
 
 def inicio():
     while True:
         print(f'''
-        {Fore.BLACK+Back.WHITE}\U0001F41E \
-            YO TE AYUDO \
-            \U0001F41E {Back.RESET+Fore.RESET}
+                {Fore.BLACK+Back.WHITE}{emoji_bug} \
+                YO TE AYUDO \
+                {emoji_bug} {Back.RESET+Fore.RESET}
 
         #️⃣  Select 0ption:
 
@@ -74,7 +82,7 @@ def inicio():
                 quit()
             case _:
                 os.system("cls")  # borra informacion de la consola o terminal
-                print(Fore.RED, '\n💢 ¡OPCION INCORRECTA!', Fore.RESET)
+                print(Fore.RED, f'\n{emoji_irritate} ¡OPCION INCORRECTA!', Fore.RESET)
 
 
 # ----------- ejecucion ------------
