@@ -4,7 +4,7 @@ import os  # para borrar la inforamcion impresa en la terminal o consola
 from colorama import Back, Fore, init
 from excel_manager import excel_insert, excel_update, excel_xml
 from utilities import save_file
-from text_manager import transportar_aJson2_redAmor, transport_delete as transportarDelete, transport_insert, transport_update as transportarUpdate
+from text_manager import transportar_aJson2_redAmor, transport_delete, transport_insert, transport_update
 import logging
 from config_manager import ConfigManager
 import json
@@ -66,17 +66,17 @@ def inicio():
 
         match opt:
             case '1':
-                transport_insert(numbers=numbers, statements=statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
+                transport_insert(numbers=numbers, statements=statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=txt_filename)
             case '2':
-                transportarUpdate(numbers, statements)
+                transport_update(numbers, statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=txt_filename)
             case '3':
-                transportarDelete()
+                transport_delete()
             case '4':
                 transportar_aJson2_redAmor()
             case '5':
-                excel_insert(numbers, statements, save_file)
+                excel_insert(numbers, statements, save_file, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
             case '6':
-                excel_update(numbers, statements, save_file)
+                excel_update(numbers, statements, save_file, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
             case '7':
                 excel_xml()
             case '*':

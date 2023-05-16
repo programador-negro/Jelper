@@ -8,7 +8,11 @@ import os
 
 init()  # inicializador de colores de terminal
 
-red, green, blue, yellow, freset = Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.RESET
+red = Fore.RED
+green = Fore.GREEN
+blue = Fore.BLUE
+yellow = Fore.YELLOW
+freset = Fore.RESET
 
 
 @total_time_execution  # calcula el tiempo de ejecucion de la funcion
@@ -72,7 +76,7 @@ def transport_insert(numbers: set, statements: set, path_param: str = None, tabl
 
 @total_time_execution
 # transforma los datos a comandos INSERT para luego ser usados en MySQL
-def transport_update(numbers: set, statements: set):
+def transport_update(numbers: set, statements: set, inbox_path, outbox_path, filename):
     os.system("cls")
     print(f'''
     |--------{red} ADVERTENCIA {freset}--------|
@@ -123,7 +127,7 @@ def transport_update(numbers: set, statements: set):
 
 
 @total_time_execution
-def transport_delete():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+def transport_delete(numbers: set, statements: set, inbox_path, outbox_path, filename):  # transforma los datos a comandos DELETE para luego ser usados en MySQL
     os.system("cls")
     print(f'''
     |-------- {red}ADVERTENCIA{freset} --------|

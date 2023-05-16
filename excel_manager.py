@@ -1,10 +1,10 @@
 import pandas as pd  # para lectura de la informacion de Excel
 from copy import deepcopy
 from decorators import total_time_execution
-
+import os
 
 @total_time_execution
-def excel_update(numbers: set, statements: set, save_on_file):
+def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox_path, filename):
     '''
     take excel file records and convert them into SQL Update query one by one
     '''
@@ -103,7 +103,7 @@ def excel_xml():
 
 # transformar datos de Excel a comandos INSERT SQL
 @total_time_execution
-def excel_insert(numbers: str, statements: str, save_on_file):
+def excel_insert(numbers: str, statements: str, save_on_file, inbox_path, outbox_path, filename):
     '''
     take excel file records and convert them into SQL Insert query one by one
     '''
@@ -111,7 +111,8 @@ def excel_insert(numbers: str, statements: str, save_on_file):
     try:
         numeros_string = numbers
         predeterminados = statements
-        dirFile = input('ingrese la ruta del archivo: ')
+        
+        file_name = input('ingrese la nombre del archivo: ')
         hoja = input("Nombre de hoja: ")
         tabla = input("Nombre de tabla: ")
 
@@ -120,7 +121,7 @@ def excel_insert(numbers: str, statements: str, save_on_file):
         # xl = pd.ExcelFile(dirFile)
         # print(xl.sheet_names)
 
-        dataFrame = pd.read_excel(dirFile, sheet_name=hoja)
+        dataFrame = pd.read_excel(os.path.join(outbox_path, file_name), sheet_name=hoja)
 
         columnas = list(dataFrame.columns.values)
 
@@ -144,8 +145,11 @@ def excel_insert(numbers: str, statements: str, save_on_file):
 
             comando = comando[:-1]  # Elimina la ultima coma del String
             comando += ");\n"  # salto de linea
-            save_on_file(comando)
+
+            save_on_file(comando, inbox_path, filename)
+            
             print(comando)
+            
             comando = query
 
     except Exception:

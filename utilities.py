@@ -60,7 +60,7 @@ def equalizer(columnas1: str, lista2: list):
     else:
         pass
 
-def save_file(text: str):  # función para agregar strings en el archivo resultado
+def save_file(text: str, inbox_path, filename):  # función para agregar strings en el archivo resultado
     '''
     Doc:
         target:
@@ -69,5 +69,5 @@ def save_file(text: str):  # función para agregar strings en el archivo resulta
             text: str, recibe el como parámetro la información para ser insertada en el archivo nuevo
     '''
 
-    with open(f"./inbox/resultado.txt", "w", encoding="utf-8") as file:
+    with open(os.path.join(inbox_path, f"{filename}.txt"), "w", encoding="utf-8") as file:
         file.write(text)  # separa por salto de linea
