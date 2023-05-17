@@ -4,7 +4,15 @@ from decorators import total_time_execution
 import os
 
 @total_time_execution
-def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox_path, filename):
+def excel_update(numbers: set, 
+                 statements: set, 
+                 save_on_file: str, 
+                 inbox_path: str, 
+                 outbox_path: str, 
+                 filename: str,
+                 sheet_name: str,
+                 table_name: str,
+                 exec_mode: str):
     '''
     take excel file records and convert them into SQL Update query one by one
     '''
@@ -13,20 +21,25 @@ def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox
     predeterminados = statements
 
     try:
-        dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
-        hoja = input("Nombre de hoja: ")
-        tabla = input("Nombre de tabla: ")
+        if exec_mode=='manual':
+            file_name = input('\U0001F600 Ingrese la ruta del archivo: ')
+            sheet = input("Nombre de hoja: ")
+            table = input("Nombre de tabla: ")
+        else:
+            file_name = os.path.join(outbox_path, filename)
+            sheet=sheet_name
+            table=table_name
 
         # -------------
         # # Imprimir hojas del Archivo.
         # xl = pd.ExcelFile(dirFile)
         # print(xl.sheet_names)
 
-        dataFrame = pd.read_excel(dirFile, sheet_name=hoja)
+        dataFrame = pd.read_excel(os.path.join(outbox_path, file_name), sheet_name=sheet)
         columnas = list(dataFrame.columns.values)
-        query = f"UPDATE {tabla} SET "
+        query = f"UPDATE {table} SET "
         comando = deepcopy(query)
-        whereConditions = list()
+        where_condition = list()
         contenido = str()
         for index in range(len(dataFrame)):
             # convierte cada fila de excel en una lista
@@ -35,7 +48,7 @@ def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox
             # itera dos variables, las columnas y los valores de cada celda en la fila
             for key, value in zip(columnas, values):
                 if values.index(value) == 0:
-                    whereConditions.append(f" WHERE {key} = {value}")
+                    where_condition.append(f" WHERE {key} = {value}")
                 else:
                     if value in numeros_string or value in predeterminados:
                         comando += f"{key} = {value},"
@@ -43,16 +56,16 @@ def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox
                         comando += f"{key} = '{value}',"
 
             comando = comando[:-1]  # Elimina la ultima coma del String
-            comando += whereConditions[-1]
+            comando += where_condition[-1]
             comando += ";\n"  # salto de linea
             contenido += comando
             print(comando)
 
             comando = query
-        save_on_file(contenido)
+
+        save_on_file(contenido, inbox_path, filename)
 
     except Exception as ex:
-
         print(f"\U0000274C ERROR: {ex}")
     finally:
         print("ERROR: No fue posible seguir ejecutando el programa.")
@@ -60,16 +73,16 @@ def excel_update(numbers: set, statements: set, save_on_file, inbox_path, outbox
 
 # transformar datos de Excel a XML
 @total_time_execution
-def excel_xml():
+def excel_xml(outbox_path):
     '''
     take excel file records and convert them into XML code, one by one
     '''
 
     try:
-        dirFile = input('\U0001F600 Ingrese la ruta del archivo: ')
+        file_name = input('\U0001F600 Ingrese la ruta del archivo: ')
         hoja = "Hoja1"
 
-        dataFrame = pd.read_excel(dirFile, sheet_name=hoja)
+        dataFrame = pd.read_excel(os.path.join(outbox_path, file_name), sheet_name=hoja)
         columnas = list(dataFrame.columns.values)
         query = f""
         comando = deepcopy(query)

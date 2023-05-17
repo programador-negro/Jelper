@@ -1,6 +1,6 @@
-from utilities import leer_archivo_base as leerArchivoBase
-from utilities import save_file as guardarEnArchivo
-from utilities import equalizer as igualador
+from utilities import leer_archivo_base
+from utilities import save_file
+from utilities import equalizer
 from decorators import total_time_execution
 from colorama import Fore, init
 from copy import deepcopy
@@ -24,12 +24,12 @@ def transport_insert(numbers: set, statements: set, path_param: str = None, tabl
         params:
             numbers: list, lista de números que deben ser convertidos a tipo entero
             statements: list, lista de palabras reservadas de SQL que no deben interpretarse como strings
-
     '''
+
     try:
         ruta_archivo: str = input(
             'ingrese la ruta del archivo: ') if path_param == None else path_param
-        lineaSeparada = leerArchivoBase(ruta_archivo)
+        lineaSeparada = leer_archivo_base(ruta_archivo)
         comandoLargo: str = ""
         if lineaSeparada:
             tabla: str = input(
@@ -41,7 +41,7 @@ def transport_insert(numbers: set, statements: set, path_param: str = None, tabl
             # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
             tempList = lineaSeparada[0].split(",")
             os.system("cls")
-            igualador(columnas, tempList)
+            equalizer(columnas, tempList)
 
             for colum in columnas:
                 # agrega las columnas ingresadas
@@ -67,15 +67,15 @@ def transport_insert(numbers: set, statements: set, path_param: str = None, tabl
 
                 comandoLargo += comando
                 comando = ini
-        guardarEnArchivo(comandoLargo)
+        save_file(comandoLargo, inbox_path=inbox_path, filename=filename)
     except Exception as ex:
         print(f"ERROR: {ex}")
     finally:
         print("<< No fue posible seguir ejecutando el programa >>")
 
 
-@total_time_execution
 # transforma los datos a comandos INSERT para luego ser usados en MySQL
+@total_time_execution
 def transport_update(numbers: set, statements: set, inbox_path, outbox_path, filename):
     os.system("cls")
     print(f'''
@@ -86,8 +86,8 @@ def transport_update(numbers: set, statements: set, inbox_path, outbox_path, fil
     |-----------------------------|
     ''')
     try:
-        ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
-        lineaSeparada = leerArchivoBase(ruta_archivo)
+        ruta_archivo = input(f'{yellow}Ingrese la ruta del archivo: {freset}')
+        lineaSeparada = leer_archivo_base(ruta_archivo)
         comandoLargo = ""
         if lineaSeparada:
             tabla, columnas = input('Tabla: '),  input('Columnas: ').split()
@@ -97,7 +97,7 @@ def transport_update(numbers: set, statements: set, inbox_path, outbox_path, fil
             # toma el numero de columnas para comparar con el numero de valores a ingresar e igualar las columnas
             tempList = lineaSeparada[0].split(",")
             os.system("cls")
-            igualador(columnas, tempList)
+            equalizer(columnas, tempList)
 
             ini = deepcopy(comando)  # copia la variable 'comando'
 
@@ -119,7 +119,8 @@ def transport_update(numbers: set, statements: set, inbox_path, outbox_path, fil
 
                 comandoLargo += comando
                 comando = ini
-        guardarEnArchivo(comandoLargo)
+        save_file(comandoLargo, inbox_path=inbox_path, filename=filename)
+
     except Exception as ex:
         print(f"ERROR: {ex}")
     finally:
@@ -138,8 +139,8 @@ def transport_delete(numbers: set, statements: set, inbox_path, outbox_path, fil
     |-----------------------------|
     ''')
     try:
-        ruta_archivo: str = input('ingrese la ruta del archivo: ')
-        lineaSeparada = leerArchivoBase(ruta_archivo)
+        ruta_archivo: str = input('Ingrese la ruta del archivo: ')
+        lineaSeparada = leer_archivo_base(ruta_archivo)
         comandoLargo: str = ""
         if lineaSeparada:
             tabla = input('Tabla: ')
@@ -154,7 +155,8 @@ def transport_delete(numbers: set, statements: set, inbox_path, outbox_path, fil
                 comando += f"{item[0].strip()}';\n"
                 comandoLargo += comando
                 comando = ini
-        guardarEnArchivo(comandoLargo)
+        save_file(comandoLargo, inbox_path=inbox_path, filename=filename)
+
     except Exception as ex:
         print(f"ERROR: {ex}")
     finally:
@@ -162,7 +164,7 @@ def transport_delete(numbers: set, statements: set, inbox_path, outbox_path, fil
 
 
 @total_time_execution
-def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para luego ser usados en MySQL
+def transportar_aJson2_redAmor(): # transforma los datos a comandos INSERT para luego ser usados en MySQL
     ''' Documentacion:
     - El proposito de esta funcion es generar los comandos INSERT SQL de la informacion enviada por cliente mediante Tickets de Seus.
     - la infomacion enviada por cliente llega en archivo de Excel, la columnas deben ordenarse en el orden del DICCIONARIO de esta funcion.
@@ -208,7 +210,7 @@ def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para
             "Mensaje": ""}
 
         ruta_archivo = input(f'{yellow}ingrese la ruta del archivo: {freset}')
-        lineaSeparada = leerArchivoBase(ruta_archivo)
+        lineaSeparada = leer_archivo_base(ruta_archivo)
         for item in lineaSeparada:
             elem_sep = item.split(',')
 
@@ -241,7 +243,7 @@ def transportar_aJson2_redAmor():  # transforma los datos a comandos INSERT para
             string += f'"tipo_documento_del_trabajador":"{diccionario["tipo_documento_del_trabajador"]}"'
             string += "}' "
             queryX += string + ');\n'
-            guardarEnArchivo(queryX)
+            save_file(queryX)
     except Exception as ex:
         print(ex)
     finally:

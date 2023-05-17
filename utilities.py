@@ -37,12 +37,11 @@ def leer_archivo_base(path: str):
 
 def equalizer(columnas1: str, lista2: list):
     '''
-    Doc:
-        target:
-            igualar la cantidad de columnas del receptor en el resultado
-        params:
-            column1: str, contiene las columnas insertadas por el usuario
-            column2: str, contiene las columnas definidas en el archivo de texto
+    target:
+        igualar la cantidad de columnas del receptor en el resultado
+    params:
+        column1: str, contiene las columnas insertadas por el usuario
+        column2: str, contiene las columnas definidas en el archivo de texto
     '''
 
     columnas1, len2 = int(columnas1), len(lista2)

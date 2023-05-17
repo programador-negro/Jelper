@@ -14,10 +14,10 @@ logging.info('Stating Program')
 
 init()  # inicializador de colores de terminal
 
-red = Fore.RED 
-green = Fore.GREEN 
-blue = Fore.BLUE 
-yellow = Fore.YELLOW 
+red = Fore.RED
+green = Fore.GREEN
+blue = Fore.BLUE
+yellow = Fore.YELLOW
 freset = Fore.RESET
 
 config_path = os.path.join(os.path.dirname(__file__), 'config.ini')
@@ -27,17 +27,24 @@ config = ConfigManager(config_path).get_config()
 
 numbers: set = set(json.loads(config['data_sources'].get('numbers')))
 statements: set = set(json.loads(config['data_sources'].get('sql_statements')))
+
 emoji_bug: str = config['emojis'].get('bug')
 emoji_irritate: str = config['emojis'].get('irritate')
 
 txt_filename: str = config['data_sources'].get('txt_filename')
 xlsx_filename: str = config['data_sources'].get('xlsx_filename')
+sheet_name: str = config['data_sources'].get('sheet_name')
+
+execution_mode: str = config['jarvis'].get('execution_mode')
+table_name: str = config['jarvis'].get('table_name')
+sheet_name: str = config['jarvis'].get('sheet_name')
 
 # File path to save results
-inbox_path: str = os.path.join( os.path.dirname(__file__) , 'inbox')
+inbox_path: str = os.path.join(os.path.dirname(__file__), 'inbox')
 
 # File path to read sources
-outbox_path: str = os.path.join( os.path.dirname(__file__) , 'outbox')
+outbox_path: str = os.path.join(os.path.dirname(__file__), 'outbox')
+
 
 def inicio():
     '''
@@ -66,19 +73,47 @@ def inicio():
 
         match opt:
             case '1':
-                transport_insert(numbers=numbers, statements=statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=txt_filename)
+                transport_insert(numbers=numbers, 
+                                 statements=statements,
+                                 inbox_path=inbox_path, 
+                                 outbox_path=outbox_path, 
+                                 filename=txt_filename)
+
             case '2':
-                transport_update(numbers, statements, inbox_path=inbox_path, outbox_path=outbox_path, filename=txt_filename)
+                transport_update(numbers=numbers, 
+                                 statements=statements, 
+                                 inbox_path=inbox_path,
+                                 outbox_path=outbox_path, 
+                                 filename=txt_filename)
+
             case '3':
                 transport_delete()
+
             case '4':
                 transportar_aJson2_redAmor()
+
             case '5':
-                excel_insert(numbers, statements, save_file, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
+                excel_insert(numbers=numbers, 
+                             statements=statements, 
+                             save_on_file=save_file, 
+                             inbox_path=inbox_path, 
+                             outbox_path=outbox_path, 
+                             filename=xlsx_filename)
+
             case '6':
-                excel_update(numbers, statements, save_file, inbox_path=inbox_path, outbox_path=outbox_path, filename=xlsx_filename)
+                excel_update(numbers=numbers,
+                             statements=statements,
+                             save_on_file=save_file,
+                             inbox_path=inbox_path,
+                             outbox_path=outbox_path,
+                             filename=xlsx_filename,
+                             exec_mode=execution_mode,
+                             table_name=table_name,
+                             sheet_name=sheet_name)
+
             case '7':
-                excel_xml()
+                excel_xml(outbox_path=outbox_path)
+
             case '*':
                 print(Fore.BLUE+"Bye!"+Fore.RESET)
                 break
