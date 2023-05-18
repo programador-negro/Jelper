@@ -115,12 +115,13 @@ def inicio():
                 excel_xml(outbox_path=outbox_path)
 
             case '*':
-                print(Fore.BLUE+"Bye!"+Fore.RESET)
+                print(Fore.BLUE, "Bye!", Fore.RESET)
                 break
             case _:
                 os.system("cls")  # borra informacion de la consola o terminal
-                print(
-                    Fore.RED, f'\n{emoji_irritate} ¡OPCION INCORRECTA!', Fore.RESET)
+                print(Fore.RED, 
+                      f'\n{emoji_irritate} ¡OPCION INCORRECTA!',
+                      Fore.RESET)
 
 
 # ----------- ejecucion ------------
