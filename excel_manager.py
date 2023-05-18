@@ -1,7 +1,7 @@
+import os
 import pandas as pd  # para lectura de la informacion de Excel
 from copy import deepcopy
 from decorators import total_time_execution
-import os
 
 @total_time_execution
 def excel_update(numbers: set, 
